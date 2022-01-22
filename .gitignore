@@ -82,7 +82,7 @@ db.sqlite3-journal
 .idea/
 
 __pycache__/
-accountapp/__pycache__/urls.cpython-37.pyc
+accountapp/__pycache__/
 
 
 django_venv/
