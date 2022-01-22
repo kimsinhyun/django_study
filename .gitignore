@@ -77,11 +77,12 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 .env
-
 db.sqlite3
-
+db.sqlite3-journal
 .idea/
 
 __pycache__/
+accountapp/__pycache__/urls.cpython-37.pyc
+
 
 django_venv/
