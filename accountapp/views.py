@@ -4,7 +4,7 @@ from accountapp.models import HelloWorld
 from django.urls import reverse, reverse_lazy
 
 # Create your views here.
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -39,3 +39,8 @@ class AccountCreateView(CreateView):
     #reverse        ->  함수형 view에서 사용
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/create.html'   #회원가입할 때 보일 HTML
+
+class AccountDetialView(DetailView):
+    model = User
+    context_object_name = 'target_user'
+    template_name = 'accountapp/detail.html'
