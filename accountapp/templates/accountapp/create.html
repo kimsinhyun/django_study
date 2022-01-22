@@ -1,13 +1,19 @@
 {% extends 'base.html'  %}
+{% load bootstrap4 %}
+
 {% block content %}
-    <div style="text-align: center">
+    <div style="text-align: center ; max-width: 500px ; margin: 4rem auto">
+        <div class="mb-4">
+            <h4>Signup</h4>
+        </div>
+
     <!--    accountapp:create라는 라우트에 연결-->
         <form action="{% url 'accountapp:create' %}" method="post">
     <!--        post해주면 항상 csrf_token을 만들어줘야 한다, 없으면 어차피 동작도 안한다-->
     <!--        아이디 패쓰워드 input을 다 생성하긴 버거움, 그리고 views.py의 AccountCreateView에서 UserCreationForm을 했기 떄문에-->
     <!--        내부적으로 생긴 form 변수를 가져와서 쓰면 된다-->
             {% csrf_token %}
-            {{ form }}
+            {% bootstrap_form form %}
                 <input type="submit" class="btn btn-primary" >
 
         </form>
