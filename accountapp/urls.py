@@ -1,6 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
-from accountapp.views import hello_world,AccountCreateView,AccountDetialView
+from accountapp.views import AccountUpdateView, hello_world,AccountCreateView,AccountDetialView
 
 #이렇게 써놓는게 좋다.
 
@@ -19,4 +19,6 @@ urlpatterns = [
     
     #몇 번 유저객체에 접근할 것인지
     path('detail/<int:pk>', AccountDetialView.as_view(), name='detail'),
+    path('update/<int:pk>', AccountUpdateView.as_view(), name='update'),
+    
 ]
