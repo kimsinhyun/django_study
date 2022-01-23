@@ -7,28 +7,39 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from accountapp.decorators import account_ownership_required
+
 from accountapp.forms import AccountUpdateForm
 
+
+has_ownership = [account_ownership_required, login_required]
+
+
+
 #FBV  (함수기반 view)
+@login_required   #이렇게 해주면 아래 is_authenticated와 똑같은 동작을 한다! (데코레이터)
 def hello_world(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
+    # if request.user.is_authenticated:
 
-            temp = request.POST.get('hello_world_input')
+    if request.method == "POST":
 
-            new_hello_world = HelloWorld()
-            new_hello_world.text = temp
-            new_hello_world.save()
+        temp = request.POST.get('hello_world_input')
 
-            hello_world_list =  HelloWorld.objects.all()
-            #reserse는 특정 url로 리다이렉트해주는 함수
-            return HttpResponseRedirect(reverse('accountapp:hello_world'))
-        elif request.method == "GET":
-            hello_world_list =  HelloWorld.objects.all()
+        new_hello_world = HelloWorld()
+        new_hello_world.text = temp
+        new_hello_world.save()
 
-            return render(request, 'accountapp/hello_world.html', context={ 'hello_world_list' : hello_world_list })
-    else:
-        return HttpResponseRedirect(reverse('accountapp:login'))
+        hello_world_list =  HelloWorld.objects.all()
+        #reserse는 특정 url로 리다이렉트해주는 함수
+        return HttpResponseRedirect(reverse('accountapp:hello_world'))
+    elif request.method == "GET":
+        hello_world_list =  HelloWorld.objects.all()
+
+        return render(request, 'accountapp/hello_world.html', context={ 'hello_world_list' : hello_world_list })
+    # else:
+        # return HttpResponseRedirect(reverse('accountapp:login'))
 
 #CBV 클래스 기반 View
 class AccountCreateView(CreateView):
@@ -49,41 +60,35 @@ class AccountDetialView(DetailView):
     context_object_name = 'target_user'
     template_name = 'accountapp/detail.html'
 
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountUpdateView(UpdateView):
     model = User
     context_object_name = 'target_user'
     form_class = AccountUpdateForm
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/update.html'
-    # #UpdateView 안에 있는 view라는 함수 아래 주석이 원래 기존 방식 코드
+
+    #---------------------------얘네들은 method decorator로 바로 대체된다!! 가독성 UP-----------------------------
     # def get(self, *args, **kwargs):
-    #     return super().get(*args, **kwargs)
-    def get(self, *args, **kwargs):
-        # 로그인이 되어 있고 현재 request를 보내고 있는 유저와 같을 시, 만약 두 번째 조건이 없으면 1번 유저가 2번 유저를 삭제할 수 있음!!
-        if self.request.user.is_authenticated and self.get_object() == self.request.user:
-            return super().get(*args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-    def post(self, *args, **kwargs):
-        if self.request.user.is_authenticated and self.get_object() == self.request.user:
-            return super().get(*args, **kwargs)
-        else:
-            return HttpResponseForbidden()
+    #     # 로그인이 되어 있고 현재 request를 보내고 있는 유저와 같을 시, 만약 두 번째 조건이 없으면 1번 유저가 2번 유저를 삭제할 수 있음!!
+    #     if self.request.user.is_authenticated and self.get_object() == self.request.user:
+    #         return super().get(*args, **kwargs)
+    #     else:
+    #         return HttpResponseForbidden()
+    # def post(self, *args, **kwargs):
+    #     if self.request.user.is_authenticated and self.get_object() == self.request.user:
+    #         return super().get(*args, **kwargs)
+    #     else:
+    #         return HttpResponseForbidden()
         
 
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountDeleteView(DeleteView):
     model = User
     context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:login')
     template_name = 'accountapp/delete.html'
-    def get(self, *args, **kwargs):
-        if self.request.user.is_authenticated and self.get_object() == self.request.user:
-            return super().get(*args, **kwargs)
-        else:
-            return HttpResponseForbidden()
-    def post(self, *args, **kwargs):
-        if self.request.user.is_authenticated and self.get_object() == self.request.user:
-            return super().get(*args, **kwargs)
-        else:
-            return HttpResponseForbidden()
+    
         
