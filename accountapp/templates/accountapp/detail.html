@@ -21,11 +21,16 @@
       {% endif %}
     </h2>
     {% else %}
-    <a href="{% url 'profileapp:create' %}">
-      <h2 style="font-family: 'MaruBuri-Bold'">
-        Create Profile
-      </h2>
-    </a>
+      {% if target_user == user %}
+      <a href="{% url 'profileapp:create' %}">
+        <h2 style="font-family: 'MaruBuri-Bold'">
+          Create Profile
+        </h2>
+      </a>
+      {% else %}
+      <h2>닉네임 미설정</h2>
+
+      {% endif %}
     {% endif %}
 
     <h5 style="margin-bottom: 3rem;">
