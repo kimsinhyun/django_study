@@ -7,9 +7,18 @@
       {{ target_user.date_joined }}
     </p>
     <!-- 유저의 프로필이 존재한다면 -->
+
+    <img src="{{ target_user.profile.image.url }}" alt="" style="height: 10rem; width: 10rem; border-radius: 10rem; margin-bottom: 2rem;">
+
     {% if target_user.profile %}
+    {{ target_user.profile.pk }}
     <h2 class="sinhyun_google_font">
       {{ target_user.profile.nickname }}
+      {% if target_user == user %}
+      <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
+        edit
+      </a>
+      {% endif %}
     </h2>
     {% else %}
     <a href="{% url 'profileapp:create' %}">
@@ -18,6 +27,10 @@
       </h2>
     </a>
     {% endif %}
+
+    <h5 style="margin-bottom: 3rem;">
+      {{ target_user.profile.message }}
+    </h5>
 
 
     {% if target_user == user %}
