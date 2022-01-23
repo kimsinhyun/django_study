@@ -5,4 +5,6 @@ from profileapp.models import Profile
 class ProfileCreationForm(ModelForm):
     class Meta:
         model = Profile
+        #user까지 넣어버리면 다른사람의 프로필도 만들어버릴 수 있는 가능성이 있기 때문에 안넣음
+        #따로 서버 내에서 구현
         fields = ['image','nickname','message']

@@ -6,9 +6,20 @@
     <p>
       {{ target_user.date_joined }}
     </p>
+    <!-- 유저의 프로필이 존재한다면 -->
+    {% if target_user.profile %}
     <h2 class="sinhyun_google_font">
-      {{ target_user.username }}
+      {{ target_user.profile.nickname }}
     </h2>
+    {% else %}
+    <a href="{% url 'profileapp:create' %}">
+      <h2 style="font-family: 'MaruBuri-Bold'">
+        Create Profile
+      </h2>
+    </a>
+    {% endif %}
+
+
     {% if target_user == user %}
     <a href="{% url 'accountapp:update' pk=user.pk %}">
       <p>
