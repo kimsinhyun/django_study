@@ -4,6 +4,8 @@ from articleapp.forms import ArticleCreationForm
 from articleapp.models import Article
 from articleapp.decorators import article_ownership_required
 
+from commentapp.forms import ComentCreationForm
+from django.views.generic.edit import FormMixin
 from django.urls import reverse, reverse_lazy
 
 from django.utils.decorators import method_decorator
@@ -27,8 +29,9 @@ class ArticleCreateView(CreateView):
         return reverse('articleapp:detail', kwargs={'pk': self.object.pk})
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(DetailView, FormMixin):
     model = Article
+    form_class = ComentCreationForm
     context_object_name = 'target_article'
     template_name = 'articleapp/detail.html'
 
