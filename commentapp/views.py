@@ -1,9 +1,14 @@
+from ast import Delete
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
+from commentapp.decorators import comment_ownership_required
 from commentapp.models import Comment
 from commentapp.forms import ComentCreationForm
 from django.urls import reverse
 from articleapp.models import Article
+
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class CommentCreateView(CreateView):
@@ -20,3 +25,13 @@ class CommentCreateView(CreateView):
 
     def get_success_url(self) -> str:
         return reverse('articleapp:detail', kwargs={'pk':self.object.article.pk})
+
+@method_decorator(comment_ownership_required, 'get')
+@method_decorator(comment_ownership_required, 'post')
+class CommentDeleteView(DeleteView):
+    model = Comment
+    context_object_name = "target_comment"
+    template_name = 'commentapp/delete.html'
+
+    def get_success_url(self) -> str:
+        return reverse('articleapp:detail', kwargs={'pk':self.object.article.pk })
