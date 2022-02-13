@@ -15,7 +15,8 @@
     <h2 class="sinhyun_google_font">
       {{ target_user.profile.nickname }}
       {% if target_user == user %}
-      <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
+      <!-- box-shadow: 시작위치x, 시작위치y, 쉐도우 크기, 쉐도우 색깔 -->
+      <a class="material-icons" style="box-shadow: 0 0 3px #ccc; border-radius: 10rem; padding: .4rem;" href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
         edit
       </a>
       {% endif %}
@@ -39,15 +40,11 @@
 
 
     {% if target_user == user %}
-    <a href="{% url 'accountapp:update' pk=user.pk %}">
-      <p>
-        Change Info
-      </p>
+    <a class="material-icons" style="box-shadow: 0 0 3px #ccc; border-radius: 10rem; padding: .4rem;" href="{% url 'accountapp:update' pk=user.pk %}">
+      settings
     </a>
-    <a href="{% url 'accountapp:delete' pk=user.pk %}">
-      <p>
-        Quit
-      </p>
+    <a class="material-icons" style="box-shadow: 0 0 3px #fcc; border-radius: 10rem; padding: .4rem;" href="{% url 'accountapp:delete' pk=user.pk %}">
+      delete
     </a>
     {% endif %}
 
