@@ -2,26 +2,29 @@
     <div >
         <h1 class='sinhyun_google_font'>Sinhyun</h1>
     </div>
-    <div>
-        <a href="{% url 'articleapp:list' %}">
+    <div class="prgmatic_header_navbar">
+        <a href="{% url 'articleapp:list' %}" class="prgmatic_header_nav">
             <span>Articles</span>
+        </a>
+        <a href="{% url 'projectapp:list' %}" class="prgmatic_header_nav">
+            <span>Projects</span>
         </a>
 
         {% if not user.is_authenticated %}
 <!--        로그인을 하고 나서 다음으로 넘어갈 경로, 여기서는 로그인을 하고 나면 원래 로그인 버튼을 눌렀던 그 페이지로 돌아가게끔 했다-->
-        <a href="{% url 'accountapp:login' %}?next={{ request.path }}">
+        <a href="{% url 'accountapp:login' %}?next={{ request.path }}" class="prgmatic_header_nav">
             <span>login</span>
         </a>
-        <a href="{% url 'accountapp:create' %}?next={{ request.path }}">
+        <a href="{% url 'accountapp:create' %}?next={{ request.path }}" class="prgmatic_header_nav">
             <span>Signup</span>
         </a>
 
         {% else %}
-        <a href="{% url 'accountapp:detail' pk=user.pk %}">
+        <a href="{% url 'accountapp:detail' pk=user.pk %}" class="prgmatic_header_nav">
             <span>MyPage</span>
         </a>
 
-        <a href="{% url 'accountapp:logout' %}?next={{ request.path }}">
+        <a href="{% url 'accountapp:logout' %}?next={{ request.path }}" class="prgmatic_header_nav">
             <span>logout</span>
         </a>
         {% endif %}

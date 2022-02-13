@@ -8,7 +8,7 @@
     </p>
     <!-- 유저의 프로필이 존재한다면 -->
 
-    <img src="{{ target_user.profile.image.url }}" alt="" style="height: 10rem; width: 10rem; border-radius: 10rem; margin-bottom: 2rem;">
+    <img src="{{ target_user.profile.image.url }}" alt="" style="height: 10rem; width: 10rem; border-radius: 10rem; margin-bottom: 2rem; object-fit: cover;">
 
     {% if target_user.profile %}
     {{ target_user.profile.pk }}
@@ -52,5 +52,9 @@
     {% endif %}
 
   </div>
+    <div>
+      {% include 'snippets/list_fragment.html' with article_list=object_list %}
+    </div>
+
   </div>
 {% endblock %}
