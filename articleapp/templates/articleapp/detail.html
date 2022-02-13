@@ -14,7 +14,10 @@
       <img style="width: 100%; border-radius: 1rem; margin: 2rem 0;" 
         src="{{ target_article.image.url }}" alt="">
       <p>
-        {{ target_article.content }}
+        <div class="text-left">
+          <!-- safe를 걸어줘야 medium-editor에 있는 내용들을 제대로 보여줄 수 있다 -->
+        {{ target_article.content  | safe }}
+        </div>     
       </p>
       {% if target_article.writer == user %}
       <a href="{% url 'articleapp:update' pk=target_article.pk %}"
